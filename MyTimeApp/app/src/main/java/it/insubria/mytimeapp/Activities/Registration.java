@@ -141,7 +141,10 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    time_from.setText(hourOfDay + ":" + minute);
+                    String hour = hourOfDay < 10 ? "0" + hourOfDay : "" + hourOfDay;
+                    String minuti = minute < 10 ? "0" + minute : "" + minute;
+
+                    time_from.setText(hour + ":" + minuti);
                 }
             }, hour, minute, false);
             timePickerDialog.show();
@@ -155,7 +158,10 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    time_to.setText(hourOfDay + ":" + minute);
+                    String hour = hourOfDay < 10 ? "0" + hourOfDay : "" + hourOfDay;
+                    String minuti = minute < 10 ? "0" + minute : "" + minute;
+
+                    time_to.setText(hour + ":" + minuti);
                 }
             }, hour, minute, false);
             timePickerDialog.show();
