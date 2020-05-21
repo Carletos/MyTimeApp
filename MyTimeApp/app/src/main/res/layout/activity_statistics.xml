@@ -15,6 +15,7 @@
         app:title="Statistiche"
         android:background="@null"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
     <GridView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
