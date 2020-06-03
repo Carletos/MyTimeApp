@@ -1,37 +1,41 @@
 package it.insubria.mytimeapp.Activities;
 
-import android.widget.DatePicker;
-import android.widget.TimePicker;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.textfield.TextInputEditText;
 import android.app.*;
+import fr.ganfra.materialspinner.MaterialSpinner;
+import it.insubria.mytimeapp.Database.DB;
 import it.insubria.mytimeapp.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class Registration extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String EXTRA_REPLY = "it.insubria.personlistsql.REPLY";
     private Button saveButton;
     private Button calendarButton;
     private Button timeFromButton;
     private Button timeToButton;
 
     private TextInputEditText name;
-    private TextInputEditText stuff;
     private TextInputEditText date;
     private TextInputEditText time_from;
     private TextInputEditText time_to;
 
     private Toolbar toolbarRegistration;
+
+    MaterialSpinner spinner;
+    List<String> namesStuff = new ArrayList<>();
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_registration);
 
         name = findViewById(R.id.name);
-        stuff = findViewById(R.id.stuff);
         date = findViewById(R.id.date);
         time_from = findViewById(R.id.timeFrom);
         time_to = findViewById(R.id.timeTo);
@@ -57,51 +60,57 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         timeFromButton.setOnClickListener(this);
         timeToButton.setOnClickListener(this);
 
+        spinner = findViewById(R.id.spinner);
+        namesStuff.add("Studio");
+        namesStuff.add("Lavoro");
+        namesStuff.add("Igiene Personale");
+        namesStuff.add("Svago");
+        namesStuff.add("Pranzo");
+        namesStuff.add("Ceno");
+        namesStuff.add("Faccio colazione");
+        namesStuff.add("Palestra");
+        adapter = new ArrayAdapter<String>(this, R.layout.spinner_item,namesStuff);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                /*if (position != -1){
+                    int selected = Integer.parseInt(spinner.getItemAtPosition(position).toString());
+                    if (selected % 2 == 0)
+                        spinner.setError("Errore! Seleziona un'attività!");
+                }
+
+                 */
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent saveIntent = new Intent();
-                if(TextUtils.isEmpty(name.getText())){
-                    setResult(RESULT_CANCELED, saveIntent);
-                } else{
-                    String name1 = name.getText().toString();
-                    saveIntent.putExtra(EXTRA_REPLY, name1);
+
+                String query = "INSERT INTO Person(nome, stuff, data, ora_inizio, ora_fine) VALUES ('%s', '%s', '%s', '%s', '%s') ";
+                if (TextUtils.isEmpty(name.getText()) || TextUtils.isEmpty(spinner.getSelectedItem().toString()) || TextUtils.isEmpty(date.getText()) || TextUtils.isEmpty(time_from.getText()) || TextUtils.isEmpty(time_to.getText())){
+                    Toast.makeText(Registration.this, "Attenzione! Non hai completato tutti i dati", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                query = String.format(query, name.getText(), spinner.getSelectedItem().toString(), date.getText(), time_from.getText(), time_to.getText());
+                DB Person = new DB(getApplicationContext());
+                if (Person.executeQuery(query)){
                     setResult(RESULT_OK, saveIntent);
+                    finish();
                 }
 
-                if(TextUtils.isEmpty(stuff.getText())){
-                    setResult(RESULT_CANCELED, saveIntent);
-                } else{
-                    String name2 = stuff.getText().toString();
-                    saveIntent.putExtra(EXTRA_REPLY, name2);
-                    setResult(RESULT_OK, saveIntent);
-                }
-
-                if(TextUtils.isEmpty(date.getText())){
-                    setResult(RESULT_CANCELED, saveIntent);
-                } else{
-                    String name3 = date.getText().toString();
-                    saveIntent.putExtra(EXTRA_REPLY, name3);
-                    setResult(RESULT_OK, saveIntent);
-                }
-
-                if(TextUtils.isEmpty(time_from.getText())){
-                    setResult(RESULT_CANCELED, saveIntent);
-                } else{
-                    String name4 = time_from.getText().toString();
-                    saveIntent.putExtra(EXTRA_REPLY, name4);
-                    setResult(RESULT_OK, saveIntent);
-                }
-
-                if(TextUtils.isEmpty(time_to.getText())){
-                    setResult(RESULT_CANCELED, saveIntent);
-                } else{
-                    String name5 = time_to.getText().toString();
-                    saveIntent.putExtra(EXTRA_REPLY, name5);
-                    setResult(RESULT_OK, saveIntent);
-                }
-                finish();
+                //MainActivity.static_adapter.notifyDataSetChanged();
             }
         });
     }
@@ -127,7 +136,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    date.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                    date.setText(((dayOfMonth>=10)?dayOfMonth:"0"+dayOfMonth) + "/" + (month + 1) + "/" + year);
                 }
             }, year, month, day);
             datePickerDialog.show();

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import it.insubria.mytimeapp.R;
@@ -25,9 +26,11 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
 
     private final LayoutInflater mInflater;
     private List<Person> mPeople;
+    private DB db;
 
     public PersonListAdapter(Context context){
         mInflater = LayoutInflater.from(context);
+        db = new DB(context);
     }
 
     @Override
@@ -40,15 +43,15 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
     public void onBindViewHolder(PersonViewHolder holder, int position) {
         if(mPeople != null){
             Person current = mPeople.get(position);
-            holder.personItemView.setText(current.getName());
-            holder.personItemView.setText(current.getStuff());
-            holder.personItemView.setText((CharSequence) current.getDate());
-            holder.personItemView.setText(current.getTimeFrom());
-            holder.personItemView.setText(current.getTimeTo());
+            String txt = "%s : %s  - %s  %s-%s";
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+            txt = String.format(txt, current.getName(),current.getStuff(),sdf.format(current.getDate()),current.getTimeFrom(),current.getTimeTo());
+            holder.personItemView.setText(txt);
         } else{
             holder.personItemView.setText("No person");
         }
     }
+
 
     public void setPeople(List<Person> people){
         mPeople = people;
@@ -61,4 +64,15 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
             return mPeople.size();
         else return 0;
     }
+
+    public Person getPerson(int i){
+        return mPeople.get(i);
+    }
+
+    public boolean deletePerson(int pid){
+        return db.removePerson(pid);
+    }
+
+
+
 }

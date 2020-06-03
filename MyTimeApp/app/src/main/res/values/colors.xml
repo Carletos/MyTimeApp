@@ -7,5 +7,6 @@
 
     <color name="buttonLabel">#FFFFFF</color>
     <color name="floatingButton">#1976D2</color>
+    <color name="colorRed">#E53935</color>
 
 </resources>

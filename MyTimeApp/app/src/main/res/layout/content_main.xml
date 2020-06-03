@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="it.insubria.mytimeapp.MainActivity"
+    tools:context="it.insubria.mytimeapp.Activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -15,6 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/recyclerview_item"
-        android:background="@android:color/holo_blue_dark"/>
+        android:background="@drawable/textview_border"/>
 
 </RelativeLayout>

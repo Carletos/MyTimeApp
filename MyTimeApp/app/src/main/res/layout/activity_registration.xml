@@ -34,31 +34,27 @@
                 android:id="@+id/name"
                 android:layout_marginStart="80dp"
                 android:hint="Inserisci nome"
-                android:layout_marginLeft="80dp" />
+                android:layout_marginLeft="80dp" android:enabled="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textFieldStuff"
-            android:textColorHint="@color/buttonLabel"
-            android:layout_width="match_parent"
+    <fr.ganfra.materialspinner.MaterialSpinner
+            android:layout_width="209dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="160dp"
-            android:layout_centerVertical="true"
-            android:orientation="vertical">
-        <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:textColor="@color/buttonLabel"
-                android:ems="10"
-                android:id="@+id/stuff"
-                android:layout_marginStart="80dp"
-                android:layout_below="@id/name"
-                android:hint="Cosa stai facendo?"
-                android:layout_marginLeft="80dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:id="@+id/spinner"
+            style="@style/mySpinnerItemStyle"
+            app:ms_arrowColor="@color/buttonLabel"
+            app:ms_highlightColor="@color/buttonLabel"
+            app:ms_floatingLabelColor="@color/buttonLabel"
+            app:ms_arrowSize="16dp"
+            app:ms_hint="Cosa stai facendo?"
+            app:ms_hintColor="@color/buttonLabel"
+            app:ms_multiline="true"
+            android:popupBackground="#00B0FF"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="512dp"
+            android:layout_marginEnd="101dp"
+            android:layout_centerHorizontal="true"/>
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textFieldDate"
             android:layout_width="241dp"
@@ -80,7 +76,7 @@
                 android:layout_marginLeft="80dp"
                 android:ems="10"
                 android:hint="Inserisci la data"
-                android:inputType="date"/>
+                android:inputType="date" android:enabled="false"/>
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -103,7 +99,7 @@
                 android:ems="10"
                 android:layout_marginStart="5dp"
                 android:hint="Ora inizio"
-                android:layout_marginLeft="66dp"/>
+                android:layout_marginLeft="66dp" android:enabled="false"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textFieldTo"
@@ -116,6 +112,7 @@
             android:textColorHint="@color/buttonLabel"
             android:orientation="vertical"
             android:layout_marginLeft="200dp">
+
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/timeTo"
                 android:layout_width="105dp"
@@ -124,7 +121,7 @@
                 android:inputType="time"
                 android:ems="10"
                 android:hint="Ora fine"
-                android:layout_marginTop="352dp"/>
+                android:layout_marginTop="352dp" android:enabled="false"/>
     </com.google.android.material.textfield.TextInputLayout>
     <Button
             android:id="@+id/saveButton"
@@ -171,5 +168,6 @@
             android:layout_marginBottom="351dp"
             android:layout_alignParentBottom="true"
             android:layout_centerVertical="true"/>
+
 
 </RelativeLayout>

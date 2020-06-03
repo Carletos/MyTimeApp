@@ -11,5 +11,6 @@
         style="@style/data_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/holo_blue_dark" />
+        android:background="@drawable/textview_border"
+        android:textColor="@color/buttonLabel"/>
 </LinearLayout>
