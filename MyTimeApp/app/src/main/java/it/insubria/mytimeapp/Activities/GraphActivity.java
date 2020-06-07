@@ -1,6 +1,8 @@
 package it.insubria.mytimeapp.Activities;
 
 import android.graphics.Color;
+import android.os.Handler;
+import android.view.View;
 import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,7 +14,6 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
-import com.anychart.data.View;
 import it.insubria.mytimeapp.Database.DB;
 import it.insubria.mytimeapp.Database.Person;
 import it.insubria.mytimeapp.R;
@@ -29,6 +30,11 @@ public class GraphActivity extends AppCompatActivity {
 
     AnyChartView anyChartView;
 
+    private ProgressBar progressBar;
+    private int mProgressStatus = 0;
+
+    private Handler mHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +45,31 @@ public class GraphActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        progressBar = findViewById(R.id.progressBar);
+        anyChartView = findViewById(R.id.Chart);
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (mProgressStatus < 100){
+                    mProgressStatus++;
+                    android.os.SystemClock.sleep(20);
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                           progressBar.setProgress(mProgressStatus);
+                        }
+                    });
+                }
+                progressBar.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        setupPieChart();
+                    }
+                });
+            }
+        }).start();
         /*
         db = new DB(getApplicationContext());
 
@@ -49,9 +79,9 @@ public class GraphActivity extends AppCompatActivity {
 
         ArrayList<Person> people = db.getAllStuff(stuff);
          */
-        anyChartView = findViewById(R.id.Chart);
 
-        setupPieChart();
+
+
 
 
     }
