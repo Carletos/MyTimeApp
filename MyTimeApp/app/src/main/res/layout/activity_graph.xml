@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="2dp"
     android:background="@drawable/background"
     tools:context=".Activities.GraphActivity">
 
@@ -14,5 +15,15 @@
         app:title="Grafici"
         android:background="@null"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <com.anychart.AnyChartView
+            android:layout_width="384dp"
+            android:layout_height="639dp"
+            android:id="@+id/Chart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.481"
+            android:layout_marginBottom="16dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 import it.insubria.mytimeapp.Activities.Registration;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -162,6 +163,21 @@ public class DB extends SQLiteOpenHelper {
         }
 
         return persons;
+    }
+
+    public ArrayList<Person> getAllStuff(String stuff){
+        ArrayList<Person> people = new ArrayList<Person>();
+        String query = "";
+        query = "SELECT stuff FROM Person WHERE stuff = '%s'";
+        query = String.format(query,stuff);
+
+        try {
+            db.execSQL(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return people;
     }
 }
 

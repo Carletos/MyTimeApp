@@ -43,7 +43,7 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
     public void onBindViewHolder(PersonViewHolder holder, int position) {
         if(mPeople != null){
             Person current = mPeople.get(position);
-            String txt = "%s : %s  - %s  %s-%s";
+            String txt = "%s --> %s \nIn data: %s , dalle ore %s alle ore %s";
             SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
             txt = String.format(txt, current.getName(),current.getStuff(),sdf.format(current.getDate()),current.getTimeFrom(),current.getTimeTo());
             holder.personItemView.setText(txt);

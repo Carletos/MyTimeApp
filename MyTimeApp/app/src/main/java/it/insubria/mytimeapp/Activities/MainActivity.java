@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-
             return false;
         }
 
@@ -146,10 +145,8 @@ public class MainActivity extends AppCompatActivity {
             snackbar.setAction("Undo", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     db.addPerson(last);
                     dateChanged = true;
-
                 }
             });
             snackbar.setDuration(30000);
@@ -159,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-
             new RecyclerViewSwipeDecorator.Builder(MainActivity.this, c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                     .addSwipeLeftBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.colorRed))
                     .addSwipeLeftActionIcon(R.drawable.ic_delete)

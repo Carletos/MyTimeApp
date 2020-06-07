@@ -69,6 +69,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         namesStuff.add("Ceno");
         namesStuff.add("Faccio colazione");
         namesStuff.add("Palestra");
+        namesStuff.add("Altro");
         adapter = new ArrayAdapter<String>(this, R.layout.spinner_item,namesStuff);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
