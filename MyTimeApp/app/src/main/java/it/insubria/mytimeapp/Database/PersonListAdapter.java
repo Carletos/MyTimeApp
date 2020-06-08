@@ -13,6 +13,10 @@ import java.util.List;
 
 import it.insubria.mytimeapp.R;
 
+/*
+    This class is necessary for the RecyclerView in the MainActivity
+ */
+
 public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.PersonViewHolder> {
 
     public class PersonViewHolder extends RecyclerView.ViewHolder {
@@ -33,6 +37,7 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
         db = new DB(context);
     }
 
+    // these two following methods are necessary for the creation of the recyclerView 
     @Override
     public PersonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.recyclerview_item, parent, false);
@@ -51,7 +56,6 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
             holder.personItemView.setText("No person");
         }
     }
-
 
     public void setPeople(List<Person> people){
         mPeople = people;
@@ -72,7 +76,4 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
     public boolean deletePerson(int pid){
         return db.removePerson(pid);
     }
-
-
-
 }

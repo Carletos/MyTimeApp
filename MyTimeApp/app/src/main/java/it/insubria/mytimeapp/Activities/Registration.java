@@ -19,6 +19,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/*
+    This class is used to provide all the necessary items for the activity Registration
+ */
+
 public class Registration extends AppCompatActivity implements View.OnClickListener {
 
     private Button saveButton;
@@ -61,6 +65,8 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         timeToButton.setOnClickListener(this);
 
         spinner = findViewById(R.id.spinner);
+
+        // preset stuff for the spinner
         namesStuff.add("Studio");
         namesStuff.add("Lavoro");
         namesStuff.add("Igiene Personale");
@@ -70,35 +76,28 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         namesStuff.add("Faccio colazione");
         namesStuff.add("Palestra");
         namesStuff.add("Altro");
+
         adapter = new ArrayAdapter<String>(this, R.layout.spinner_item,namesStuff);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
+        // this listener is necessary to display the correct selected activity
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                /*if (position != -1){
-                    int selected = Integer.parseInt(spinner.getItemAtPosition(position).toString());
-                    if (selected % 2 == 0)
-                        spinner.setError("Errore! Seleziona un'attività!");
-                }
-
-                 */
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
+        // this button saves each field and controls that aren't empty. If there isn't any empty field, it creates the "INSERT INTO" query
         saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent saveIntent = new Intent();
-
                 String query = "INSERT INTO Person(nome, stuff, data, ora_inizio, ora_fine) VALUES ('%s', '%s', '%s', '%s', '%s') ";
                 if (TextUtils.isEmpty(name.getText()) || TextUtils.isEmpty(spinner.getSelectedItem().toString()) || TextUtils.isEmpty(date.getText()) || TextUtils.isEmpty(time_from.getText()) || TextUtils.isEmpty(time_to.getText())){
                     Toast.makeText(Registration.this, "Attenzione! Non hai completato tutti i dati", Toast.LENGTH_SHORT).show();
@@ -110,24 +109,22 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                     setResult(RESULT_OK, saveIntent);
                     finish();
                 }
-
-                //MainActivity.static_adapter.notifyDataSetChanged();
             }
         });
     }
 
+    // Toolbar method for the back button
     @Override
     public boolean onSupportNavigateUp() {
-
         Intent resultIntent = new Intent();
         setResult(RESULT_CANCELED, resultIntent);
         finish();
         return true;
     }
 
+    // this method is used to implement correctly the date and time pickers
     @Override
     public void onClick(View v) {
-
         if(v == calendarButton) {
             Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_MONTH);

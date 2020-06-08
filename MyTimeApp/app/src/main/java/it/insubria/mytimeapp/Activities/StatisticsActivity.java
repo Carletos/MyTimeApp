@@ -9,7 +9,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.button.MaterialButton;
 import it.insubria.mytimeapp.Database.DB;
 import it.insubria.mytimeapp.Database.Person;
 import it.insubria.mytimeapp.Database.PersonListAdapter;
@@ -19,10 +18,14 @@ import it.insubria.mytimeapp.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+/*
+    This class displays all the statistics chosen by the filter
+ */
 
 public class StatisticsActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerViewStatistica;
+    private RecyclerView recyclerViewStatistics;
+
     private PersonViewModel mPersonViewModel;
 
     private PersonListAdapter adapter;
@@ -45,16 +48,13 @@ public class StatisticsActivity extends AppCompatActivity {
 
         toolbarStat = findViewById(R.id.toolbarStat);
         setSupportActionBar(toolbarStat);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        recyclerViewStatistica = findViewById(R.id.recyclerViewStatistica);
+        recyclerViewStatistics = findViewById(R.id.recyclerViewStatistica);
         adapter = new PersonListAdapter(this);
-        recyclerViewStatistica.setAdapter(adapter);
-        recyclerViewStatistica.setLayoutManager(new LinearLayoutManager(this));
-
-        shareButton = findViewById(R.id.shareButton);
+        recyclerViewStatistics.setAdapter(adapter);
+        recyclerViewStatistics.setLayoutManager(new LinearLayoutManager(this));
 
         mPersonViewModel = new ViewModelProvider(this).get(PersonViewModel.class);
         adapter.setPeople(mPersonViewModel.getAllPeople());
@@ -69,6 +69,8 @@ public class StatisticsActivity extends AppCompatActivity {
         ArrayList<Person> people = db.getAllPeopleFilter(dataInizio, dataFine, oraInizio, oraFine);
         adapter.setPeople(people);
 
+        // with this button and method the user can share his statistics with social media
+        shareButton = findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,29 +79,22 @@ public class StatisticsActivity extends AppCompatActivity {
                 String txt = "";
 
                 for (Person people: db.getAllPeople()){
-
                     txt = txt.concat("%s --> %s \nIn data: %s , dalle ore %s alle ore %s\n");
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
                     txt = String.format(txt, people.getName(),people.getStuff(),sdf.format(people.getDate()),people.getTimeFrom(),people.getTimeTo());
-
                 }
-                //intent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
                 intent.putExtra(Intent.EXTRA_TEXT, txt);
                 startActivity(Intent.createChooser(intent, "Share via"));
             }
         });
-
     }
 
+    // Toolbar method for the back button
     @Override
     public boolean onSupportNavigateUp() {
-
         Intent resultIntent = new Intent();
         setResult(RESULT_OK, resultIntent);
         finish();
         return true;
     }
-
-
-
 }

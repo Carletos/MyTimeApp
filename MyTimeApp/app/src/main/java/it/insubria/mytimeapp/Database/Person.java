@@ -1,9 +1,11 @@
 package it.insubria.mytimeapp.Database;
 
 import androidx.annotation.NonNull;
-
-
 import java.util.Date;
+
+/*
+    This class creates all the data of a person to insert this in the database
+ */
 
 public class Person {
 
@@ -17,11 +19,10 @@ public class Person {
 
     private String timeFrom;
 
-
     private String timeTo;
 
-
     public Person(int pid, String name, String stuff, Date date, String timeFrom, String timeTo) {
+
         this.pid = pid;
         this.name = name;
         this.stuff = stuff;
@@ -29,7 +30,6 @@ public class Person {
         this.timeFrom = timeFrom;
         this.timeTo = timeTo;
     }
-
 
     @NonNull
     public int getPid() {

@@ -27,20 +27,30 @@ import it.insubria.mytimeapp.Database.PersonViewModel;
 import it.insubria.mytimeapp.R;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
+/*
+    This is the most important class of the project, where the user can see all the activities that he stored
+ */
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int REGISTRATION_REQUEST_CODE = 1;
+
     private FloatingActionButton addButton;
+
     private RecyclerView recyclerView;
+
     private PersonViewModel mPersonViewModel;
+
     private Toolbar toolbar;
+
     private PersonListAdapter adapter;
+
     private DB db;
+
     private boolean dateChanged = false;
+
     private Handler timeRefresh = new Handler();
 
-    //DB dbPerson;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
+        // setting the RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         adapter = new PersonListAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -58,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         mPersonViewModel = new ViewModelProvider(this).get(PersonViewModel.class);
         adapter.setPeople(mPersonViewModel.getAllPeople());
 
-
+        // this button is used to switch to "Registration" to record new activities
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,12 +79,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // this instance is for "swipe to delete"
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
         db = new DB(getApplicationContext());
         timeRefresh.postDelayed(timerTick, 500);
     }
 
+    // the two following methods are used to create the menu items on the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -85,12 +98,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case R.id.stat_item:
-                //Toast.makeText(getApplicationContext(),"Hai cliccato su activity_statistics", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, FilterStatistics.class);
                 startActivity(intent);
                 break;
             case R.id.graph_item:
-               // Toast.makeText(getApplicationContext(),"Hai cliccato su grafici", Toast.LENGTH_SHORT).show();
                 Intent intent2 = new Intent(MainActivity.this, GraphActivity.class);
                 startActivity(intent2);
                 break;
@@ -99,20 +110,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        /*super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == REGISTRATION_REQUEST_CODE && resultCode == RESULT_OK){
-            Person person = new Person(data.getStringExtra(Registration.EXTRA_REPLY));
-            mPersonViewModel.insert(person);
-        } else{
-            Toast.makeText(getApplicationContext(), "Non è stata salvata l'attività perchè è vuota", Toast.LENGTH_LONG).show();
-        }*/
         dateChanged = (resultCode == RESULT_OK);
-
-        //recyclerViewStatistica.setAdapter(adapter);
-
     }
+
+    // this method is used to set the correct delay for "swipe to delete"
     private Runnable timerTick = new Runnable() {
         @Override
         public void run() {
@@ -123,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             timeRefresh.postDelayed(timerTick,500);
         }
     };
-
 
     ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
@@ -149,11 +149,11 @@ public class MainActivity extends AppCompatActivity {
                     dateChanged = true;
                 }
             });
-            snackbar.setDuration(30000);
+            snackbar.setDuration(2000);
             snackbar.show();
-
         }
 
+        // this method is used to display the selected icon and background color for the swipe
         @Override
         public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
             new RecyclerViewSwipeDecorator.Builder(MainActivity.this, c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
@@ -161,10 +161,7 @@ public class MainActivity extends AppCompatActivity {
                     .addSwipeLeftActionIcon(R.drawable.ic_delete)
                     .create()
                     .decorate();
-
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
-
-
 }

@@ -1,6 +1,5 @@
 package it.insubria.mytimeapp.Activities;
 
-import android.graphics.Color;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -18,15 +17,18 @@ import it.insubria.mytimeapp.Database.DB;
 import it.insubria.mytimeapp.Database.Person;
 import it.insubria.mytimeapp.R;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
+
+/*
+    This class includes all the method to display the "stuff" data chart
+ */
 
 public class GraphActivity extends AppCompatActivity {
 
     private Toolbar toolbarGraph;
+
     private DB db;
-    private String stuff;
 
     AnyChartView anyChartView;
 
@@ -48,6 +50,7 @@ public class GraphActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         anyChartView = findViewById(R.id.Chart);
 
+        // creating a Thread to display the progress bar before the chart
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -70,22 +73,9 @@ public class GraphActivity extends AppCompatActivity {
                 });
             }
         }).start();
-        /*
-        db = new DB(getApplicationContext());
-
-        Pie pie = AnyChart.pie();
-        anyChartView = findViewById(R.id.Chart);
-        anyChartView.setChart(pie);
-
-        ArrayList<Person> people = db.getAllStuff(stuff);
-         */
-
-
-
-
-
     }
 
+    // Toolbar method for the back button
     @Override
     public boolean onSupportNavigateUp() {
         Intent resultIntent = new Intent();
@@ -95,13 +85,10 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     public void setupPieChart(){
-
-
         Pie pie = AnyChart.pie();
         int[] values = {0,0,0,0,0,0,0,0,0};
         String[] activities = {"Studio","Lavoro","Igiene Personale","Svago","Pranzo","Ceno","Faccio colazione","Palestra","Altro"};
         db = new DB(getApplicationContext());
-
         List<DataEntry> dataEntries = new ArrayList<>();
         for(Person people: db.getAllPeople()){
             switch(people.getStuff()) {
@@ -139,8 +126,6 @@ public class GraphActivity extends AppCompatActivity {
         }
         pie.data(dataEntries);
         pie.title("All Stuff");
-        anyChartView.setBackgroundColor(Color.TRANSPARENT);
         anyChartView.setChart(pie);
-
     }
 }

@@ -15,9 +15,12 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.textfield.TextInputEditText;
 import it.insubria.mytimeapp.Database.DB;
 import it.insubria.mytimeapp.R;
-import it.insubria.mytimeapp.TypeFilter;
 
 import java.util.Calendar;
+
+/*
+     This is the class that helps "StatisticsActivity" to display the selected data
+ */
 
 public class FilterStatistics extends AppCompatActivity {
 
@@ -68,8 +71,8 @@ public class FilterStatistics extends AppCompatActivity {
         db = new DB(getApplicationContext());
     }
 
+    // onClick of the button "filtra"
     public void onClick(View v) {
-
         if(v == buttonCalendarInizio) {
             Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -79,6 +82,7 @@ public class FilterStatistics extends AppCompatActivity {
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    // setting day, month and year to display the correct data (JAVA DATE PROBLEM)
                     dataInizio.setText(((dayOfMonth>=10)?dayOfMonth:"0"+dayOfMonth) + "/" + (month + 1) + "/" + year);
                 }
             }, year, month, day);
@@ -108,6 +112,7 @@ public class FilterStatistics extends AppCompatActivity {
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    // when hour or minutes are minus 10, the system puts a 0 before the time
                     String hour = hourOfDay < 10 ? "0" + hourOfDay : "" + hourOfDay;
                     String minuti = minute < 10 ? "0" + minute : "" + minute;
 
@@ -135,7 +140,7 @@ public class FilterStatistics extends AppCompatActivity {
         }
 
         if(v == buttonFilter) {
-            TypeFilter f = TypeFilter.DataInizio;
+            // checking if the input data is empty
             if (TextUtils.isEmpty(dataInizio.getText()) || TextUtils.isEmpty(dataFine.getText()) || TextUtils.isEmpty(ora_inizio.getText()) || TextUtils.isEmpty(ora_fine.getText())){
                 Toast.makeText(this, "Attenzione! Compila tutti i campi", Toast.LENGTH_SHORT).show();
                 return;
@@ -146,13 +151,12 @@ public class FilterStatistics extends AppCompatActivity {
             intent.putExtra("oraInizio", ora_inizio.getText().toString());
             intent.putExtra("oraFine", ora_fine.getText().toString());
             startActivity(intent);
-
         }
     }
 
+    // Toolbar method for the back button
     @Override
     public boolean onSupportNavigateUp() {
-
         Intent resultIntent = new Intent();
         setResult(RESULT_CANCELED, resultIntent);
         finish();
